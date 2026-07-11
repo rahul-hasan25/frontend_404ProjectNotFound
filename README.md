@@ -1,6 +1,6 @@
 # 🚀 404 Project Not Found - Frontend (Next.js & TypeScript)
 
-> Welcome to the frontend of the 2-in-1 ultimate web application! This platform seamlessly fuses a fast-paced, intuitive Kanban Task Manager with an advanced Medical/Image Annotation Workbench. Built with style, aesthetics, and pixel-perfect precision.
+> Welcome to the frontend of the 2-in-1 ultimate web application! This platform seamlessly fuses a fast-paced, intuitive Kanban Task Manager with an advanced Image Annotation Workbench. Built with style, aesthetics, and pixel-perfect precision.
 
 ---
 
