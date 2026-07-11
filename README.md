@@ -35,7 +35,7 @@ Every great anime arc features formidable villains. During the assembly of this 
 ---
 
 ## Verify API Configuration:
-* **Ensure that your custom Axios instance (src/utils/api.ts) points directly to your locally running Django server endpoint (usually http://127.0.0.1:8000)[cite: 11].**
+* **Ensure that your custom Axios instance (src/utils/api.ts) points directly to your locally running Django server endpoint (usually http://127.0.0.1:8000 ) [cite: 11].**
 
 ---
 
