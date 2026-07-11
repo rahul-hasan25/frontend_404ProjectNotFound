@@ -38,7 +38,23 @@ interface AnnotationContextType {
   fetchBackendClasses: () => Promise<string[]>;
 }
 
-const DEFAULT_FALLBACK_CLASSES = ['Tumor', 'Cyst', 'Lesion']; // When Database empty 
+const DEFAULT_FALLBACK_CLASSES = ['Tumor', 'Cyst', 'Lesion']; // When Database empty[cite: 4]
+
+async function fetchWithFallback(endpoint: string, options?: RequestInit) {
+  const localBase = 'http://127.0.0.1:8000/api/';
+  const productionBase = 'https://rahulhasan.pythonanywhere.com/api/';
+
+  try {
+    const res = await fetch(`${localBase}${endpoint}`, options);
+    if (!res.ok) throw new Error('Local server error');
+    return res;
+  } catch (error) {
+    console.warn(`Local backend disconnected, trying production server for: ${endpoint}`);
+    const res = await fetch(`${productionBase}${endpoint}`, options);
+    if (!res.ok) throw new Error('Production server error');
+    return res;
+  }
+}
 
 const defaultState = (initialClass: string = 'Tumor'): ViewportState => ({
   images: [],
@@ -67,12 +83,7 @@ export function AnnotationProvider({ children }: { children: React.ReactNode }) 
 
   const fetchBackendClasses = async (): Promise<string[]> => {
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/label-classes/`);
-      
-      if (!res.ok) {
-        throw new Error("Unauthorized or server error");
-      }
-      
+      const res = await fetchWithFallback('label-classes/');
       const data = await res.json();
       const classesList = Array.isArray(data) ? data : (data.results || []);
       const names: string[] = classesList.map((c: any) => c.name);
@@ -95,13 +106,7 @@ export function AnnotationProvider({ children }: { children: React.ReactNode }) 
   const fetchSeriesDataByClass = async (view: 'axial' | 'sagittal', className: string) => {
     updateViewport(view, { loading: true, selectedClass: className });
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/series/?view_type=${view}&class_name=${encodeURIComponent(className)}`);
-      
-      if (!res.ok) {
-        updateViewport(view, { images: [], sliceIndex: 1, loading: false });
-        return;
-      }
-
+      const res = await fetchWithFallback(`series/?view_type=${view}&class_name=${encodeURIComponent(className)}`);
       const data = await res.json();
       const seriesList = Array.isArray(data) ? data : (data.results || []);
       const targetSeries = seriesList[0];
@@ -125,7 +130,7 @@ export function AnnotationProvider({ children }: { children: React.ReactNode }) 
   const saveSliceAnnotations = async (view: 'axial' | 'sagittal', imageId: number, annotations: any[]) => {
     const current = view === 'axial' ? axial : sagittal;
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/annotations/bulk-save/`, {
+      const res = await fetchWithFallback('annotations/bulk-save/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
