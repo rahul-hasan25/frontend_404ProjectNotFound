@@ -25,7 +25,7 @@ export default function DateSelector({ onCreateTask, onRefresh }: DateSelectorPr
           <Stethoscope className="w-4 h-4" />
         </div>
         <div>
-          <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Diagnostic Shift Allocation</p>
+          <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Task Stream</p>
           <h2 className="text-xs font-black text-slate-800 uppercase tracking-wide">
             {new Date(selectedDate).toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' })}
           </h2>
