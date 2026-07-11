@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
+const BACKEND_API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+
 export async function middleware(request: NextRequest) {
   const token = request.cookies.get('access_token')?.value;
   const { pathname } = request.nextUrl;
@@ -9,7 +11,7 @@ export async function middleware(request: NextRequest) {
 
   if (token) {
     try {
-      const verifyRes = await fetch('http://127.0.0.1:8000/api/auth/token/verify/', {
+      const verifyRes = await fetch(`${BACKEND_API_URL}/auth/token/verify/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token }),
