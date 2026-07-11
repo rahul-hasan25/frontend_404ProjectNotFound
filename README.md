@@ -1,4 +1,4 @@
-# 🕶️ 404 Project Not Found — Frontend Terminal (Next.js 15)
+# 404 Project Not Found — Frontend (Next.js 15)
 
 > "Believe in the code that believes in you!" 🕶️🔥
 Welcome to the front line of the 404 Project. This is an exceptionally aesthetic, modular, and pixel-perfect Next.js application built with TypeScript, Tailwind CSS, and Lucide Icons. It bridges the gap between clinical task coordination via an ultra-sleek Kanban layout and advanced data engineering via a canvas-based Image Annotation suite.
@@ -34,14 +34,24 @@ Every great anime arc features formidable villains. During the assembly of this 
 
 ---
 
-## 🚀 Step-by-Step Installation & Boot Guide
+## Verify API Configuration:
+* **Ensure that your custom Axios instance (src/utils/api.ts) points directly to your locally running Django server endpoint (usually http://127.0.0.1:8000)[cite: 11].**
+
+---
+
+## Access the Web Terminal:
+* **Open your browser and navigate to http://localhost:3000. Welcome aboard!**
+
+---
+
+## 🚀 Step-by-Step Installation
 
 Follow these steps to ignite the frontend engine:
 
-1. **Navigate to the Frontend Directory:**
-   ```bash
-   cd frontend
-
-2. **Install Core System Dependencies:**
+1. **Install Core System Dependencies:**
     ```bash
     npm install
+
+2. **Boot Up the Next.js Development Server:**
+   ```bash
+   npm run dev
