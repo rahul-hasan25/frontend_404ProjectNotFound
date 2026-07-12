@@ -32,7 +32,7 @@ export default function LoginPage() {
         Cookies.set('access_token', access, { expires: 1 / 24, secure: true, sameSite: 'strict' }); // 1 hour expiration
         Cookies.set('refresh_token', refresh, { expires: 7, secure: true, sameSite: 'strict' });
 
-        toast.success('Access Granted. Initializing Session...', {
+        toast.success('Login Successful!', {
           style: { border: '1px solid #e2e8f0', padding: '16px', color: '#0f172a', borderRadius: '0px' },
         });
         
