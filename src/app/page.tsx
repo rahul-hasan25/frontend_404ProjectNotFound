@@ -32,12 +32,15 @@ export default function LoginPage() {
         Cookies.set('access_token', access, { expires: 1 / 24, secure: true, sameSite: 'lax' }); // 1 hour expiration
         Cookies.set('refresh_token', refresh, { expires: 7, secure: true, sameSite: 'lax' });
 
+        localStorage.setItem('access_token', access);
+        localStorage.setItem('refresh_token', refresh);
+
         toast.success('Login Successful!', {
           style: { border: '1px solid #e2e8f0', padding: '16px', color: '#0f172a', borderRadius: '0px' },
         });
         
         setTimeout(() => {
-          router.push('/tasks');
+          window.location.href = '/tasks';
         }, 1000);
       }
     } catch (err: any) {
