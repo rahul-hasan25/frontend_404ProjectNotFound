@@ -23,6 +23,20 @@ function KanbanControlTerminal() {
   });
 
   useEffect(() => {
+    const cookieToken = Cookies.get('access_token');
+    const localToken = localStorage.getItem('access_token');
+    const localRefresh = localStorage.getItem('refresh_token');
+
+    if (!cookieToken && localToken) {
+      Cookies.set('access_token', localToken, { expires: 1 / 24, secure: true, sameSite: 'lax' });
+      if (localRefresh) {
+        Cookies.set('refresh_token', localRefresh, { expires: 7, secure: true, sameSite: 'lax' });
+      }
+      window.location.reload();
+    }
+  }, []);
+
+  useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setDropdownOpen(false);
