@@ -38,19 +38,19 @@ interface AnnotationContextType {
   fetchBackendClasses: () => Promise<string[]>;
 }
 
-const DEFAULT_FALLBACK_CLASSES = ['Tumor', 'Cyst', 'Lesion']; // When Database empty[cite: 4]
+const DEFAULT_FALLBACK_CLASSES = ['Tumor', 'Cyst', 'Lesion']; // When Database empty
 
 async function fetchWithFallback(endpoint: string, options?: RequestInit) {
   const localBase = 'http://127.0.0.1:8000/api/';
   const productionBase = 'https://rahulhasan.pythonanywhere.com/api/';
 
   try {
-    const res = await fetch(`${localBase}${endpoint}`, options);
-    if (!res.ok) throw new Error('Local server error');
+    const res = await fetch(`${productionBase}${endpoint}`, options);
+    if (!res.ok) throw new Error('Production server error');
     return res;
   } catch (error) {
-    console.warn(`Local backend disconnected, trying production server for: ${endpoint}`);
-    const res = await fetch(`${productionBase}${endpoint}`, options);
+    console.warn(`Production backend disconnected, trying local server for: ${endpoint}`);
+    const res = await fetch(`${localBase}${endpoint}`, options);
     if (!res.ok) throw new Error('Production server error');
     return res;
   }
