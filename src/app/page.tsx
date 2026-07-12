@@ -29,8 +29,8 @@ export default function LoginPage() {
       if (response.status === 200) {
         const { access, refresh } = response.data;
         
-        Cookies.set('access_token', access, { expires: 1 / 24, secure: true, sameSite: 'strict' }); // 1 hour expiration
-        Cookies.set('refresh_token', refresh, { expires: 7, secure: true, sameSite: 'strict' });
+        Cookies.set('access_token', access, { expires: 1 / 24, secure: true, sameSite: 'none' }); // 1 hour expiration
+        Cookies.set('refresh_token', refresh, { expires: 7, secure: true, sameSite: 'none' });
 
         toast.success('Login Successful!', {
           style: { border: '1px solid #e2e8f0', padding: '16px', color: '#0f172a', borderRadius: '0px' },
