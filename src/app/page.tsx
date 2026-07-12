@@ -29,8 +29,8 @@ export default function LoginPage() {
       if (response.status === 200) {
         const { access, refresh } = response.data;
         
-        Cookies.set('access_token', access, { expires: 1 / 24, secure: true, sameSite: 'lax' }); // 1 hour expiration
-        Cookies.set('refresh_token', refresh, { expires: 7, secure: true, sameSite: 'lax' });
+        Cookies.set('access_token', access, { expires: 1 / 24, secure: true, sameSite: 'none' }); // 1 hour expiration
+        Cookies.set('refresh_token', refresh, { expires: 7, secure: true, sameSite: 'none' });
 
         localStorage.setItem('access_token', access);
         localStorage.setItem('refresh_token', refresh);
