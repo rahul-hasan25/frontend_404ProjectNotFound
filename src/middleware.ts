@@ -1,31 +1,15 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
+// ডাইনামিক এপিআই ইউআরএল
 const BACKEND_API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
 
-export async function middleware(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const token = request.cookies.get('access_token')?.value;
   const { pathname } = request.nextUrl;
 
-  let isTokenValid = false;
-
-  if (token) {
-    try {
-      const verifyRes = await fetch(`${BACKEND_API_URL}/auth/token/verify/`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token }),
-      });
-      if (verifyRes.ok) {
-        isTokenValid = true;
-      }
-    } catch (err) {
-      isTokenValid = false;
-    }
-  }
-
-
-  if (!isTokenValid && (pathname.startsWith('/tasks') || pathname.startsWith('/annotate'))) {
+  // ১. ইউজার প্রটেক্টেড পেজে যাওয়ার চেষ্টা করছে কিন্তু টোকেন নেই
+  if (!token && (pathname.startsWith('/tasks') || pathname.startsWith('/annotate'))) {
     const loginUrl = new URL('/', request.url);
     loginUrl.searchParams.set('from', pathname);
     
@@ -35,11 +19,13 @@ export async function middleware(request: NextRequest) {
     return response;
   }
 
-  if (isTokenValid && pathname === '/') {
+  // ২. ইউজারের কাছে টোকেন অলরেডি আছে এবং সে লগইন পেজে (/) ফিরতে চাচ্ছে
+  if (token && pathname === '/') {
     return NextResponse.redirect(new URL('/tasks', request.url));
   }
 
-  if (!token && request.nextUrl.pathname !== '/') {
+  // ৩. রুট পাথ (/) ছাড়া অন্য কোথাও টোকেন ছাড়া ভিজিট ঠেকানো
+  if (!token && pathname !== '/') {
     return NextResponse.redirect(new URL('/', request.url));
   }
 
